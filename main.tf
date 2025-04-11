@@ -21,3 +21,4 @@ resource "aws_instance" "example_server" {
     Name = "First instance"
   }
 }
+
