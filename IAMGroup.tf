@@ -46,7 +46,7 @@ resource "aws_iam_user_group_membership" "memebership2" {
 
 #attach a admin policy to developer groups using aws managed policy
 resource "aws_iam_group_policy" "my_developer_policy" {
-  name  = "my_developer_policy"
+  name  = "my_user_policy"
   policy =  jsonencode({
     "Version": "2012-10-17",
     "Statement": [
