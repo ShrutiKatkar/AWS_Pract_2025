@@ -47,7 +47,16 @@ resource "aws_iam_user_group_membership" "memebership2" {
 #attach a admin policy to developer groups using aws managed policy
 resource "aws_iam_group_policy" "my_developer_policy" {
   name  = "my_developer_policy"
-  policy= "arn:aws:iam::aws:policy/AmazonEC2FullAccess" 
+  policy =  jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": "ec2:*",
+            "Effect": "Allow",
+            "Resource": "*"
+        }]
+  })
+  
   group = aws_iam_group.developers.name
 }
 
