@@ -1,5 +1,6 @@
 # create 2 new users and add them to 2 group attach policy to the groups 1 has read only access to ec2 and other has admin access to ec2
 
+#creating 2 users
 resource "aws_iam_user" "group1" {
   name = "IAMUser-Read"
   path = "/system/"
@@ -44,9 +45,9 @@ resource "aws_iam_user_group_membership" "memebership2" {
   ]
 }
 
-#attach a admin policy to developer groups using aws managed policy
+#attach a admin policy to developer groups using custom policy
 resource "aws_iam_group_policy" "my_developer_policy" {
-  name  = "my_user_policy"
+  name  = "my_developer_policy"
   policy =  jsonencode({
     "Version": "2012-10-17",
     "Statement": [
@@ -62,7 +63,7 @@ resource "aws_iam_group_policy" "my_developer_policy" {
 
 #attach a read only policy to users policy via custom policy
 resource "aws_iam_group_policy" "my_user_policy" {
-  name  = "my_developer_policy"
+  name  = "my_user_policy"
   group = aws_iam_group.users.name  
   policy = jsonencode({
     Version = "2012-10-17"
