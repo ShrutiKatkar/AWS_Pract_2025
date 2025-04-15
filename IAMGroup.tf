@@ -1,4 +1,4 @@
-# create 2 new users and add them to 2 group attach policy to the groups 1 has read only access to ec2 and other has admin access to ec2
+# create 2 new users and add them to 2 group attach policy to the groups 1 has read only access to ec2,s3 and other has admin access to ec2 
 
 #creating 2 users
 resource "aws_iam_user" "group1" {
