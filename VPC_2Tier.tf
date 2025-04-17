@@ -56,7 +56,7 @@ resource "aws_instance" "instance1" {
 }
 
 # launch an ec2 instance in private subnet of us-east-1b
-resource "aws_instance" "instance1" {
+resource "aws_instance" "instance2" {
   ami           = "ami-03d500615acf7869a"
   instance_type = "t2.micro"               
   key_name      = "DemoUser1_KeyPair"
