@@ -114,7 +114,7 @@ resource "aws_lb" "ALB1" {
   #internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.allow_tls.id]
-  subnets            = [for subnet in aws_subnet.test_public_subnet1 : subnet.id]
+  subnets            = [aws_subnet.test_public_subnet1.id]
 
   enable_deletion_protection = false
 }
