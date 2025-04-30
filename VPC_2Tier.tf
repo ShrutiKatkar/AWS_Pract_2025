@@ -72,7 +72,7 @@ resource "aws_instance" "instance2" {
 resource "aws_security_group" "allow_tls" {
   name        = "allow_tls"
   description = "Allow TLS inbound traffic and all outbound traffic"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = aws_vpc.test_vpc.id
  
   tags = {
     Name = "allow_tls"
@@ -82,7 +82,7 @@ resource "aws_security_group" "allow_tls" {
 resource "aws_security_group" "allow_all" {
   name        = "allow_all"
   description = "Allow TLS inbound traffic and all outbound traffic"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = aws_vpc.test_vpc.id
  
   tags = {
     Name = "allow_all"
