@@ -111,3 +111,5 @@ resource "aws_vpc_security_group_ingress_rule" "allows_RDP" {
 # creating an ALB in Public Subnet 1
 
  
+
+ 
