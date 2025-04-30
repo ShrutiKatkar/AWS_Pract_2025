@@ -108,6 +108,15 @@ resource "aws_vpc_security_group_ingress_rule" "allows_RDP" {
   to_port           = 3389
 }
 
+#creating Inetrnet Gateway
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.test_vpc.id
+
+  tags = {
+    Name = "Test_IGW"
+  }
+}
+
 # creating an ALB in Public Subnet 1
 resource "aws_lb" "ALB1" {
   name               = "test1-lb-tf"
