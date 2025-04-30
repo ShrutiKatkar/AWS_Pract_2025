@@ -109,7 +109,12 @@ resource "aws_vpc_security_group_ingress_rule" "allows_RDP" {
 }
 
 # creating an ALB in Public Subnet 1
+resource "aws_lb" "ALB1" {
+  name               = "test1-lb-tf"
+  #internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.allow_tls.id]
+  subnets            = [aws_subnet.test_public_subnet1.id]
 
- 
-
- 
+  enable_deletion_protection = false
+}
