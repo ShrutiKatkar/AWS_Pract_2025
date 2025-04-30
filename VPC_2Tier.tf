@@ -11,7 +11,7 @@ resource "aws_vpc" "test_vpc" {
 #create a public and private subnet in 1 AZ 
 resource "aws_subnet" "test_public_subnet1" {
   vpc_id     = aws_vpc.test_vpc.id
-  cidr_block = "10.0.0.0/24"
+  cidr_block = "10.0.1.0/24"
   availability_zone = "ap-south-1a"
   tags = {
     Name = "test_public_subnet"
@@ -19,7 +19,7 @@ resource "aws_subnet" "test_public_subnet1" {
 }
 resource "aws_subnet" "test_private_subnet1" {
   vpc_id     = aws_vpc.test_vpc.id
-  cidr_block = "10.0.1.0/24"
+  cidr_block = "10.0.2.0/24"
    availability_zone = "ap-south-1a"
   tags = {
     Name = "test_private_subnet"
@@ -29,7 +29,7 @@ resource "aws_subnet" "test_private_subnet1" {
 #create a public and private Subnet in another AZ
 resource "aws_subnet" "test_public_subnet2" {
   vpc_id     = aws_vpc.test_vpc.id
-  cidr_block = "10.0.0.0/24"
+  cidr_block = "10.0.3.0/24"
   availability_zone = "ap-south-1b"
   tags = {
     Name = "test_public_subnet"
@@ -37,7 +37,7 @@ resource "aws_subnet" "test_public_subnet2" {
 }
 resource "aws_subnet" "test_private_subnet2" {
   vpc_id     = aws_vpc.test_vpc.id
-  cidr_block = "10.0.1.0/24"
+  cidr_block = "10.0.4.0/24"
    availability_zone = "ap-south-1b"
   tags = {
     Name = "test_private_subnet"
