@@ -138,6 +138,20 @@ resource "aws_lb_target_group" "test_targetgroup" {
   vpc_id   = aws_vpc.test_vpc.id
 }
 
+#creating Listener in ALB
+resource "aws_lb_listener" "listener_front_end" {
+  load_balancer_arn = aws_lb.ALB1.arn
+  port              = "80"
+  protocol          = "HTTP"
+  #ssl_policy        = "ELBSecurityPolicy-2016-08"
+  #certificate_arn   = "arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.test_targetgroup.arn
+  }
+}
+
 #attaching instances to Target Group
 resource "aws_lb_target_group_attachment" "test_attachment1" {
   target_group_arn = aws_lb_target_group.test_targetgroup.arn
@@ -150,3 +164,4 @@ resource "aws_lb_target_group_attachment" "test_attachment2" {
   target_id        = aws_instance.instance2.id
   port             = 80
 }
+
