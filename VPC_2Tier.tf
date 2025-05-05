@@ -50,7 +50,7 @@ resource "aws_instance" "instance1" {
   instance_type = "t2.micro"               
   key_name      = "DemoUser1_KeyPair"
   subnet_id     = aws_subnet.test_private_subnet1.id
-  vpc_security_group_ids = [aws_security_group.allow_tls.id]
+  vpc_security_group_ids = [aws_security_group.allow_ec2.id]
   tags = {
     Name = "Private 1a"
   }
@@ -62,7 +62,7 @@ resource "aws_instance" "instance2" {
   instance_type = "t2.micro"               
   key_name      = "DemoUser1_KeyPair"
   subnet_id     = aws_subnet.test_private_subnet2.id
-  vpc_security_group_ids = [aws_security_group.allow_tls.id]
+  vpc_security_group_ids = [aws_security_group.allow_ec2.id]
   tags = {
     Name = "Private 1b"
   }
