@@ -98,7 +98,7 @@ resource "aws_vpc_security_group_ingress_rule" "allows_RDP" {
   to_port           = 3389
 }
 
-resource "aws_vpc_security_group_ingress_rule" "allows_Http" {
+resource "aws_vpc_security_group_ingress_rule" "allows_HttpEC2" {
   security_group_id = aws_security_group.allow_ec2.id 
   #cidr_ipv4         = aws_vpc.main.cidr_block
   cidr_ipv4         = "0.0.0.0/0"
@@ -119,7 +119,7 @@ resource "aws_security_group" "allow_ALB" {
 }
 
 #assigning ingress rules for allow_all security group
-resource "aws_vpc_security_group_ingress_rule" "allows_Http" {
+resource "aws_vpc_security_group_ingress_rule" "allows_HttpALB" {
   security_group_id = aws_security_group.allow_ALB 
   #cidr_ipv4         = aws_vpc.main.cidr_block
   cidr_ipv4         = "0.0.0.0/0"
