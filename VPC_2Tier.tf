@@ -108,6 +108,15 @@ resource "aws_vpc_security_group_ingress_rule" "allows_RDP" {
   to_port           = 3389
 }
 
+resource "aws_vpc_security_group_ingress_rule" "allows_Http" {
+  security_group_id = aws_security_group.allow_tls.id  
+  #cidr_ipv4         = aws_vpc.main.cidr_block
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 80
+  ip_protocol       = "HTTP"
+  to_port           = 80
+}
+
 #creating Inetrnet Gateway
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.test_vpc.id
