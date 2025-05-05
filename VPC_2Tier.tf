@@ -113,7 +113,7 @@ resource "aws_vpc_security_group_ingress_rule" "allows_Http" {
   #cidr_ipv4         = aws_vpc.main.cidr_block
   cidr_ipv4         = "0.0.0.0/0"
   from_port         = 80
-  ip_protocol       = "HTTP"
+  ip_protocol       = "TCP"
   to_port           = 80
 }
 
