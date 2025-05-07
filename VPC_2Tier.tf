@@ -185,10 +185,10 @@ resource "aws_lb_target_group_attachment" "test_attachment2" {
   port             = 80
 }
 #creating an elastic ip for NAT gateway
-resource "aws_eip" "nat_eip" {
-  instance = aws_instance.instance1.id
-  #domain   = "vpc"
-}
+# resource "aws_eip" "nat_eip" {
+#   instance = aws_instance.instance1.id
+#   #domain   = "vpc"
+# }
 
 #creating a NAT Gateway
 resource "aws_nat_gateway" "nat1" {
