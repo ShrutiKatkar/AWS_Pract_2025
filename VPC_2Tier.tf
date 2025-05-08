@@ -14,7 +14,7 @@ resource "aws_subnet" "test_public_subnet1" {
   cidr_block = "10.0.1.0/24"
   availability_zone = "ap-south-1a"
   tags = {
-    Name = "test_public_subnet"
+    Name = "test_public_subnet_A"
   }
 }
 resource "aws_subnet" "test_private_subnet1" {
@@ -22,7 +22,7 @@ resource "aws_subnet" "test_private_subnet1" {
   cidr_block = "10.0.2.0/24"
    availability_zone = "ap-south-1a"
   tags = {
-    Name = "test_private_subnet"
+    Name = "test_private_subnet_A"
   }
 }
 
@@ -32,7 +32,7 @@ resource "aws_subnet" "test_public_subnet2" {
   cidr_block = "10.0.3.0/24"
   availability_zone = "ap-south-1b"
   tags = {
-    Name = "test_public_subnet"
+    Name = "Test_public_subnet_B"
   }
 }
 resource "aws_subnet" "test_private_subnet2" {
@@ -40,9 +40,24 @@ resource "aws_subnet" "test_private_subnet2" {
   cidr_block = "10.0.4.0/24"
    availability_zone = "ap-south-1b"
   tags = {
-    Name = "test_private_subnet"
+    Name = "test_private_subnet_B"
   }
 }
+
+# Creating Route tables for Public Subnets
+resource "aws_route_table" "test" {
+  vpc_id = aws_vpc.test_vpc.id
+
+  route {
+    cidr_block           = aws_vpc.test_vpc.cidr_block
+    #network_interface_id = aws_network_interface.test_public.id
+  }
+}
+
+# #creating network interface for subnet
+# resource "aws_network_interface" "test_public" {
+#   subnet_id = aws_subnet.test_public_subnet1.id
+# }
 
 # launch an ec2 instance in private subnet of us-east-1a
 resource "aws_instance" "instance1" {
