@@ -49,15 +49,15 @@ resource "aws_route_table" "test" {
   vpc_id = aws_vpc.test_vpc.id
 
   route {
-    cidr_block           = aws_vpc.test_vpc.cidr_block
-    #network_interface_id = aws_network_interface.test_public.id
+    cidr_block = aws_vpc.test_vpc.cidr_block
+    network_interface_id = aws_network_interface.test_public.id
   }
 }
 
-# #creating network interface for subnet
-# resource "aws_network_interface" "test_public" {
-#   subnet_id = aws_subnet.test_public_subnet1.id
-# }
+# creating network interface for subnet
+ resource "aws_network_interface" "test_public" {
+   subnet_id = aws_subnet.test_public_subnet1.id
+ }
 
 # launch an ec2 instance in private subnet of us-east-1a
 resource "aws_instance" "instance1" {
