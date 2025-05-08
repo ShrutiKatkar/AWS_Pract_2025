@@ -45,25 +45,25 @@ resource "aws_subnet" "test_private_subnet2" {
 }
 
 # Creating Route tables for Public Subnets
-resource "aws_route_table" "test" {
+resource "aws_route_table" "public_route" {
   vpc_id = aws_vpc.test_vpc.id
 
-  route {
-    cidr_block = aws_vpc.test_vpc.cidr_block
-    network_interface_id = aws_network_interface.test_public.id
-  }
+  # route {
+  #   cidr_block = aws_vpc.test_vpc.cidr_block
+  #   network_interface_id = aws_network_interface.test_public.id
+  # }
 }
 
 # associating route table with Public subnet 1
 resource "aws_route_table_association" "a" {
   subnet_id      = aws_subnet.test_public_subnet1.id
-  route_table_id = aws_route_table.test.id
+  route_table_id = aws_route_table.public_route.id
 }
 
-# creating network interface for subnet
- resource "aws_network_interface" "test_public" {
-   subnet_id = aws_subnet.test_public_subnet1.id
- }
+# # creating network interface for subnet
+#  resource "aws_network_interface" "test_public" {
+#    subnet_id = aws_subnet.test_public_subnet1.id
+#  }
 
 # launch an ec2 instance in private subnet of us-east-1a
 resource "aws_instance" "instance1" {
