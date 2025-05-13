@@ -69,10 +69,10 @@ resource "aws_route_table_association" "publicB" {
 resource "aws_route_table" "private_route" {
   vpc_id = aws_vpc.test_vpc.id
 
-  # route {
-  #   cidr_block = "0.0.0.0/0"
-  #   nat_gateway_id = aws_nat_gateway.nat1.id
-  # }
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat1.id
+  }
 }
 
 # associating route table with Public subnet 1
@@ -96,7 +96,16 @@ resource "aws_instance" "instance1" {
   tags = {
     Name = "Private 1a"
   }
+
+    user_data = <<-EOF
+              #!/bin/bash
+              sudo yum install -y httpd
+              sudo systemctl enable httpd
+              sudo systemctl start httpd
+              echo "Hello from instance1" > /var/www/html/index.html
+              EOF
 }
+
 
 # launch an ec2 instance in private subnet of us-east-1b
 resource "aws_instance" "instance2" {
@@ -108,7 +117,15 @@ resource "aws_instance" "instance2" {
   tags = {
     Name = "Private 1b"
   }
-}
+
+      user_data = <<-EOF
+              #!/bin/bash
+              sudo yum install -y httpd
+              sudo systemctl enable httpd
+              sudo systemctl start httpd
+              echo "Hello from instance1" > /var/www/html/index.html
+              EOF
+}  
 
 #Creating Security Groups for EC2
 resource "aws_security_group" "allow_ec2" {
@@ -227,26 +244,27 @@ resource "aws_lb_target_group_attachment" "test_attachment2" {
   port             = 80
 }
 
-# #creating an elastic ip for NAT gateway
-#  resource "aws_eip" "nat_eip1" {
-# #   instance = aws_instance.instance1.id
-# #   #domain   = "vpc"
-#  }
+ #creating an elastic ip for NAT gateway
+  resource "aws_eip" "nat_eip1" {
+   instance = aws_instance.instance1.id
+    #domain   = "vpc"
+  }
+
 #  resource "aws_eip" "nat_eip2" {
 # #   instance = aws_instance.instance2.id
 # #   #domain   = "vpc"
 #  }
 
 
-# #creating a NAT Gateway
-# resource "aws_nat_gateway" "nat1" {
-#   allocation_id = aws_eip.nat_eip1.id
-#   subnet_id     = aws_subnet.test_public_subnet1.id
+ #creating a NAT Gateway
+ resource "aws_nat_gateway" "nat1" {
+   allocation_id = aws_eip.nat_eip1.id
+   subnet_id     = aws_subnet.test_public_subnet1.id
 
-#   tags = {
-#     Name = "NAT gw1"
-#   }
-# }
+   tags = {
+     Name = "NAT gw1"
+   }
+ }
 
 # resource "aws_nat_gateway" "nat2" {
 #   allocation_id = aws_eip.nat_eip2.id
