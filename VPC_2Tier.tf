@@ -166,6 +166,14 @@ resource "aws_vpc_security_group_ingress_rule" "allows_HttpEC2" {
   to_port           = 80
 }
 
+resource "aws_vpc_security_group_ingress_rule" "alb_to_ec2" {
+  security_group_id = aws_security_group.allow_ec2.id
+  referenced_security_group_id = aws_security_group.allow_ALB.id
+  from_port         = 80
+  to_port           = 80
+  ip_protocol       = "tcp"
+}
+
 # creating security group for ALB
 resource "aws_security_group" "allow_ALB" {
   name        = "allow_all"
@@ -215,6 +223,17 @@ resource "aws_lb_target_group" "test_targetgroup" {
   port     = 80
   protocol = "HTTP"
   vpc_id   = aws_vpc.test_vpc.id
+
+    health_check {
+    path                = "/"
+    port                = "80"
+    protocol            = "HTTP"
+    matcher             = "200"
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
 }
 
 #creating Listener in ALB
@@ -247,7 +266,7 @@ resource "aws_lb_target_group_attachment" "test_attachment2" {
  #creating an elastic ip for NAT gateway
   resource "aws_eip" "nat_eip1" {
    #instance = aws_instance.instance1.id
-    #domain   = "vpc"
+   domain   = "vpc"
   }
 
 #  resource "aws_eip" "nat_eip2" {
