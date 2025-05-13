@@ -266,7 +266,7 @@ resource "aws_lb_target_group_attachment" "test_attachment2" {
  #creating an elastic ip for NAT gateway
   resource "aws_eip" "nat_eip1" {
    #instance = aws_instance.instance1.id
-   domain   = "vpc"
+   #domain   = "vpc"
   }
 
 #  resource "aws_eip" "nat_eip2" {
