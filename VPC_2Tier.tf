@@ -69,10 +69,10 @@ resource "aws_route_table_association" "publicB" {
 resource "aws_route_table" "private_route" {
   vpc_id = aws_vpc.test_vpc.id
 
-  route {
-    cidr_block = "0.0.0.0/0"
-    #nat_gateway_id = aws_nat_gateway.nat1.id
-  }
+  # route {
+  #   cidr_block = "0.0.0.0/0"
+  #   nat_gateway_id = aws_nat_gateway.nat1.id
+  # }
 }
 
 # associating route table with Public subnet 1
