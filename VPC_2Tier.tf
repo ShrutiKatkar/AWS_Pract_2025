@@ -48,10 +48,10 @@ resource "aws_subnet" "test_private_subnet2" {
 resource "aws_route_table" "public_route" {
   vpc_id = aws_vpc.test_vpc.id
 
-  # route {
-  #   cidr_block = aws_vpc.test_vpc.cidr_block
-  #   network_interface_id = aws_network_interface.test_public.id
-  # }
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
+  }
 }
 
 # associating route table with Public subnet 1
@@ -61,14 +61,30 @@ resource "aws_route_table_association" "a" {
 }
 
 resource "aws_route_table_association" "a" {
-  subnet_id      = aws_subnet.test_public_subnet2
+  subnet_id      = aws_subnet.test_public_subnet2.id
   route_table_id = aws_route_table.public_route.id
 }
 
-# # creating network interface for subnet
-#  resource "aws_network_interface" "test_public" {
-#    subnet_id = aws_subnet.test_public_subnet1.id
-#  }
+# Creating Route tables for Private Subnets
+resource "aws_route_table" "private_route" {
+  vpc_id = aws_vpc.test_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat1.id
+  }
+}
+
+# associating route table with Public subnet 1
+resource "aws_route_table_association" "a" {
+  subnet_id      = aws_subnet.test_private_subnet1.id
+  route_table_id = aws_route_table.private_route.id
+}
+
+resource "aws_route_table_association" "a" {
+  subnet_id      = aws_subnet.test_private_subnet2.id
+  route_table_id = aws_route_table.private_route.id
+}
 
 # launch an ec2 instance in private subnet of us-east-1a
 resource "aws_instance" "instance1" {
@@ -96,12 +112,12 @@ resource "aws_instance" "instance2" {
 
 #Creating Security Groups for EC2
 resource "aws_security_group" "allow_ec2" {
-  name        = "allow_tls"
+  name        = "allow_ec2"
   description = "Allow TLS inbound traffic and all outbound traffic"
   vpc_id      = aws_vpc.test_vpc.id
  
   tags = {
-    Name = "allow_tls"
+    Name = "allow_ec2_tls"
   }
 }
 
@@ -119,9 +135,9 @@ resource "aws_vpc_security_group_ingress_rule" "allows_RDP" {
   security_group_id = aws_security_group.allow_ec2.id 
   #cidr_ipv4         = aws_vpc.main.cidr_block
   cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 3389
+  from_port         = 22
   ip_protocol       = "tcp"
-  to_port           = 3389
+  to_port           = 22
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allows_HttpEC2" {
@@ -210,33 +226,34 @@ resource "aws_lb_target_group_attachment" "test_attachment2" {
   target_id        = aws_instance.instance2.id
   port             = 80
 }
-#creating an elastic ip for NAT gateway
- resource "aws_eip" "nat_eip1" {
-#   instance = aws_instance.instance1.id
-#   #domain   = "vpc"
- }
- resource "aws_eip" "nat_eip2" {
-#   instance = aws_instance.instance2.id
-#   #domain   = "vpc"
- }
+
+# #creating an elastic ip for NAT gateway
+#  resource "aws_eip" "nat_eip1" {
+# #   instance = aws_instance.instance1.id
+# #   #domain   = "vpc"
+#  }
+#  resource "aws_eip" "nat_eip2" {
+# #   instance = aws_instance.instance2.id
+# #   #domain   = "vpc"
+#  }
 
 
-#creating a NAT Gateway
-resource "aws_nat_gateway" "nat1" {
-  allocation_id = aws_eip.nat_eip1.id
-  subnet_id     = aws_subnet.test_public_subnet1.id
+# #creating a NAT Gateway
+# resource "aws_nat_gateway" "nat1" {
+#   allocation_id = aws_eip.nat_eip1.id
+#   subnet_id     = aws_subnet.test_public_subnet1.id
 
-  tags = {
-    Name = "NAT gw1"
-  }
-}
+#   tags = {
+#     Name = "NAT gw1"
+#   }
+# }
 
-resource "aws_nat_gateway" "nat2" {
-  allocation_id = aws_eip.nat_eip2.id
-  subnet_id     = aws_subnet.test_public_subnet1.id
+# resource "aws_nat_gateway" "nat2" {
+#   allocation_id = aws_eip.nat_eip2.id
+#   subnet_id     = aws_subnet.test_public_subnet1.id
 
-  tags = {
-    Name = "NAT gw2"
-  }
-}
+#   tags = {
+#     Name = "NAT gw2"
+#   }
+# }
 
