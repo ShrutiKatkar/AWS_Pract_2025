@@ -98,11 +98,14 @@ resource "aws_instance" "instance1" {
   }
 
     user_data = <<-EOF
-              #!/bin/bash
-              sudo yum install -y httpd
-              sudo systemctl enable httpd
-              sudo systemctl start httpd
-              echo "Hello from instance1" > /var/www/html/index.html
+               #!/bin/bash
+               yum update -y
+                sleep 10
+                yum install -y httpd
+                sleep 5
+                systemctl enable httpd
+                systemctl start httpd
+                echo "Hello from instance1" > /var/www/html/index.html  
               EOF
 }
 
@@ -118,12 +121,15 @@ resource "aws_instance" "instance2" {
     Name = "Private 1b"
   }
 
-      user_data = <<-EOF
-              #!/bin/bash
-              sudo yum install -y httpd
-              sudo systemctl enable httpd
-              sudo systemctl start httpd
-              echo "Hello from instance1" > /var/www/html/index.html
+    user_data = <<-EOF
+               #!/bin/bash
+               yum update -y
+                sleep 10
+                yum install -y httpd
+                sleep 5
+                systemctl enable httpd
+                systemctl start httpd
+                echo "Hello from instance1" > /var/www/html/index.html  
               EOF
 }  
 
